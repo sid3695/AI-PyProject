@@ -1,12 +1,13 @@
 # AI-PyProject
 Python based game implementing Minimax (with alpha beta pruning? :P)
 
-** Requirements **
+### Requirements 
 Pygame
 
-** Usage **
+### Usage
+```sh
 $ python main.py
-
-** Todo **
+```
+### Todo 
 - Implement Minimax and Alpha Beta Pruning (Maybe?) 
 - Implement a fairly rigid/accurate/realistic evaluator function
