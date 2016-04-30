@@ -43,6 +43,8 @@ def runGame():
     # Draw the starting board and ask the player what color they want.
     drawBoard(mainBoard)
     playerTile, computerTile = enterPlayerTile()
+    drawBoard(mainBoard)
+    aiChoice = enterAIChoice()
     
     # Make the Surface and Rect objects for the "New Game" and "Hints" buttons
     newGameSurf = FONT.render('New Game', True, TEXTCOLOR, TEXTBGCOLOR2)
@@ -54,10 +56,6 @@ def runGame():
 
     while True: # main game loop
         # Keep looping for player and computer's turns.
-
-        #heuristic eval focussing on comp
-        print evaluator.heuristic_eval(mainBoard, computerTile, playerTile)
-
         if turn == 'player':
             # Player's turn:
             if getValidMoves(mainBoard, playerTile) == []:
@@ -126,10 +124,13 @@ def runGame():
             #pauseUntil = time.time() + random.randint(5, 15) * 0.1
             #while time.time() < pauseUntil:
             pygame.display.update()
-            print 'hi'
-            #print mm.minimax(mainBoard, 1, 0, 3, computerTile, computerTile)
+            
             # Make the move and end the turn.
-            x, y = getComputerMoveMM(mainBoard, computerTile)
+            if aiChoice == 'm':
+                x, y = getComputerMoveMM(mainBoard, computerTile)
+            else:
+                x, y = getComputerMove(mainBoard, computerTile)
+
             makeMove(mainBoard, computerTile, x, y, True)
             if getValidMoves(mainBoard, playerTile) != []:
                 # Only set for the player's turn if they can make a move.
@@ -423,6 +424,36 @@ def enterPlayerTile():
         pygame.display.update()
         MAINCLOCK.tick(FPS)
 
+def enterAIChoice():
+    textSurf = FONT.render('Choose the algorithm the computer uses :', True, TEXTCOLOR, TEXTBGCOLOR1)
+    textRect = textSurf.get_rect()
+    textRect.center = (int(WINDOWWIDTH / 2), int(WINDOWHEIGHT / 2))
+
+    xSurf = BIGFONT.render('Greedy', True, TEXTCOLOR, TEXTBGCOLOR1)
+    xRect = xSurf.get_rect()
+    xRect.center = (int(WINDOWWIDTH / 2) - 80, int(WINDOWHEIGHT / 2) + 40)
+
+    oSurf = BIGFONT.render('MiniMax', True, TEXTCOLOR, TEXTBGCOLOR1)
+    oRect = oSurf.get_rect()
+    oRect.center = (int(WINDOWWIDTH / 2) + 80, int(WINDOWHEIGHT / 2) + 40)
+
+    while True:
+        # Keep looping until the player has clicked on a color.
+        checkForQuit()
+        for event in pygame.event.get(): # event handling loop
+            if event.type == MOUSEBUTTONUP:
+                mousex, mousey = event.pos
+                if xRect.collidepoint( (mousex, mousey) ):
+                    return 'g'
+                elif oRect.collidepoint( (mousex, mousey) ):
+                    return 'm'
+
+        # Draw the screen.
+        DISPLAYSURF.blit(textSurf, textRect)
+        DISPLAYSURF.blit(xSurf, xRect)
+        DISPLAYSURF.blit(oSurf, oRect)
+        pygame.display.update()
+        MAINCLOCK.tick(FPS)
 
 def makeMove(board, tile, xstart, ystart, realMove=False):
     # Place the tile on the board at xstart, ystart, and flip tiles
