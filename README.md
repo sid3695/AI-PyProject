@@ -10,4 +10,4 @@ $ python main.py
 ```
 ### Todo 
 - Implement Minimax and Alpha Beta Pruning (Maybe?) 
-- Implement a fairly rigid/accurate/realistic evaluator function
+~~ - Implement a fairly realistic evaluator function ~~
