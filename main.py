@@ -1,36 +1,7 @@
 import random, sys, pygame, time, copy
 from pygame.locals import *
-
-FPS = 10 # frames per second to update the screen
-WINDOWWIDTH = 640 # width of the program's window, in pixels
-WINDOWHEIGHT = 480 # height in pixels
-SPACESIZE = 50 # width & height of each space on the board, in pixels
-BOARDWIDTH = 8 # how many columns of spaces on the game board
-BOARDHEIGHT = 8 # how many rows of spaces on the game board
-WHITE_TILE = 'WHITE_TILE' # an arbitrary but unique value
-BLACK_TILE = 'BLACK_TILE' # an arbitrary but unique value
-EMPTY_SPACE = 'EMPTY_SPACE' # an arbitrary but unique value
-HINT_TILE = 'HINT_TILE' # an arbitrary but unique value
-ANIMATIONSPEED = 25 # integer from 1 to 100, higher is faster animation
-
-# Amount of space on the left & right side (XMARGIN) or above and below
-# (YMARGIN) the game board, in pixels.
-XMARGIN = int((WINDOWWIDTH - (BOARDWIDTH * SPACESIZE)) / 2)
-YMARGIN = int((WINDOWHEIGHT - (BOARDHEIGHT * SPACESIZE)) / 2)
-
-#              R    G    B
-WHITE      = (255, 255, 255)
-BLACK      = (  0,   0,   0)
-GREEN      = (  0, 155,   0)
-BRIGHTBLUE = (  0,  50, 255)
-BROWN      = (174,  94,   0)
-
-TEXTBGCOLOR1 = BRIGHTBLUE
-TEXTBGCOLOR2 = GREEN
-GRIDLINECOLOR = BLACK
-TEXTCOLOR = WHITE
-HINTCOLOR = BROWN
-
+from config import *
+import evaluator 
 
 def main():
     global MAINCLOCK, DISPLAYSURF, FONT, BIGFONT, BGIMAGE
@@ -71,7 +42,6 @@ def runGame():
     # Draw the starting board and ask the player what color they want.
     drawBoard(mainBoard)
     playerTile, computerTile = enterPlayerTile()
-
     # Make the Surface and Rect objects for the "New Game" and "Hints" buttons
     newGameSurf = FONT.render('New Game', True, TEXTCOLOR, TEXTBGCOLOR2)
     newGameRect = newGameSurf.get_rect()
@@ -82,6 +52,10 @@ def runGame():
 
     while True: # main game loop
         # Keep looping for player and computer's turns.
+
+        #heuristic eval focussing on comp
+        print evaluator.heuristic_eval(mainBoard, computerTile, playerTile)
+
         if turn == 'player':
             # Player's turn:
             if getValidMoves(mainBoard, playerTile) == []:
@@ -147,9 +121,9 @@ def runGame():
             DISPLAYSURF.blit(hintsSurf, hintsRect)
 
             # Make it look like the computer is thinking by pausing a bit.
-            pauseUntil = time.time() + random.randint(5, 15) * 0.1
-            while time.time() < pauseUntil:
-                pygame.display.update()
+            #pauseUntil = time.time() + random.randint(5, 15) * 0.1
+            #while time.time() < pauseUntil:
+            pygame.display.update()
 
             # Make the move and end the turn.
             x, y = getComputerMove(mainBoard, computerTile)
