@@ -1,5 +1,6 @@
 import main
 from config import *
+
 def heuristic_eval(board, computerTile, playerTile):
 	#determines score of an intermediate state 
 	#(used in games where we cant reach the bottom)

@@ -2,6 +2,7 @@ import random, sys, pygame, time, copy
 from pygame.locals import *
 from config import *
 import evaluator 
+import mm
 
 def main():
     global MAINCLOCK, DISPLAYSURF, FONT, BIGFONT, BGIMAGE
@@ -42,6 +43,7 @@ def runGame():
     # Draw the starting board and ask the player what color they want.
     drawBoard(mainBoard)
     playerTile, computerTile = enterPlayerTile()
+    
     # Make the Surface and Rect objects for the "New Game" and "Hints" buttons
     newGameSurf = FONT.render('New Game', True, TEXTCOLOR, TEXTBGCOLOR2)
     newGameRect = newGameSurf.get_rect()
@@ -124,9 +126,10 @@ def runGame():
             #pauseUntil = time.time() + random.randint(5, 15) * 0.1
             #while time.time() < pauseUntil:
             pygame.display.update()
-
+            print 'hi'
+            #print mm.minimax(mainBoard, 1, 0, 3, computerTile, computerTile)
             # Make the move and end the turn.
-            x, y = getComputerMove(mainBoard, computerTile)
+            x, y = getComputerMoveMM(mainBoard, computerTile)
             makeMove(mainBoard, computerTile, x, y, True)
             if getValidMoves(mainBoard, playerTile) != []:
                 # Only set for the player's turn if they can make a move.
@@ -471,6 +474,9 @@ def getComputerMove(board, computerTile):
             bestScore = score
     return bestMove
 
+def getComputerMoveMM(board, computerTile):
+    score, bestMove = mm.minimax(board, 1, 0, 3, computerTile, computerTile)
+    return bestMove
 
 def checkForQuit():
     for event in pygame.event.get((QUIT, KEYUP)): # event handling loop

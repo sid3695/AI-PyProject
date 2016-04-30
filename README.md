@@ -9,5 +9,6 @@ Pygame
 $ python main.py
 ```
 ### Todo 
-- Implement Minimax and Alpha Beta Pruning (Maybe?) 
-~~ - Implement a fairly realistic evaluator function ~~
+~~- Implement Minimax~~ 
+~~- Implement a fairly realistic evaluator function~~
+- Implement AplhaBeta?
