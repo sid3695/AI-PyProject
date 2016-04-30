@@ -3,6 +3,7 @@ from pygame.locals import *
 from config import *
 import evaluator 
 import mm
+import abp
 
 def main():
     global MAINCLOCK, DISPLAYSURF, FONT, BIGFONT, BGIMAGE
@@ -127,10 +128,11 @@ def runGame():
             
             # Make the move and end the turn.
             if aiChoice == 'm':
-                x, y = getComputerMoveMM(mainBoard, computerTile)
-            else:
+				x, y = getComputerMoveMM(mainBoard, computerTile)
+            if aiChoice == 'g':
                 x, y = getComputerMove(mainBoard, computerTile)
-
+            if aiChoice == 'a':
+				x,y=getComputerMoveABP(mainBoard,computerTile)
             makeMove(mainBoard, computerTile, x, y, True)
             if getValidMoves(mainBoard, playerTile) != []:
                 # Only set for the player's turn if they can make a move.
@@ -431,11 +433,15 @@ def enterAIChoice():
 
     xSurf = BIGFONT.render('Greedy', True, TEXTCOLOR, TEXTBGCOLOR1)
     xRect = xSurf.get_rect()
-    xRect.center = (int(WINDOWWIDTH / 2) - 80, int(WINDOWHEIGHT / 2) + 40)
+    xRect.center = (int(WINDOWWIDTH / 2), int(WINDOWHEIGHT / 2) + 40)
 
     oSurf = BIGFONT.render('MiniMax', True, TEXTCOLOR, TEXTBGCOLOR1)
     oRect = oSurf.get_rect()
-    oRect.center = (int(WINDOWWIDTH / 2) + 80, int(WINDOWHEIGHT / 2) + 40)
+    oRect.center = (int(WINDOWWIDTH / 2), int(WINDOWHEIGHT / 2) + 80)
+	
+    ySurf = BIGFONT.render('Alpha Beta Pruning', True, TEXTCOLOR, TEXTBGCOLOR1)
+    yRect = ySurf.get_rect()
+    yRect.center = (int(WINDOWWIDTH / 2), int(WINDOWHEIGHT / 2) + 120)
 
     while True:
         # Keep looping until the player has clicked on a color.
@@ -447,11 +453,14 @@ def enterAIChoice():
                     return 'g'
                 elif oRect.collidepoint( (mousex, mousey) ):
                     return 'm'
+                elif yRect.collidepoint( (mousex, mousey) ):
+                    return 'a'
 
         # Draw the screen.
         DISPLAYSURF.blit(textSurf, textRect)
         DISPLAYSURF.blit(xSurf, xRect)
         DISPLAYSURF.blit(oSurf, oRect)
+        DISPLAYSURF.blit(ySurf, yRect)
         pygame.display.update()
         MAINCLOCK.tick(FPS)
 
@@ -507,6 +516,10 @@ def getComputerMove(board, computerTile):
 
 def getComputerMoveMM(board, computerTile):
     score, bestMove = mm.minimax(board, 1, 0, 3, computerTile, computerTile)
+    return bestMove
+	
+def getComputerMoveABP(board, computerTile):
+    score, bestMove = abp.alphabetapruning(board, 1, 0, 3, computerTile, computerTile, -INFINITY, +INFINITY)
     return bestMove
 
 def checkForQuit():
