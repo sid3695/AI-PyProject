@@ -230,14 +230,14 @@ def drawBoard(board):
 
     # Draw grid lines of the board.
     for x in range(BOARDWIDTH + 1):
-        # Draw the horizontal lines.
+        # Draw the vertical lines.
         startx = (x * SPACESIZE) + XMARGIN
         starty = YMARGIN
         endx = (x * SPACESIZE) + XMARGIN
         endy = YMARGIN + (BOARDHEIGHT * SPACESIZE)
         pygame.draw.line(DISPLAYSURF, GRIDLINECOLOR, (startx, starty), (endx, endy))
     for y in range(BOARDHEIGHT + 1):
-        # Draw the vertical lines.
+        # Draw the horizontal lines.
         startx = XMARGIN
         starty = (y * SPACESIZE) + YMARGIN
         endx = XMARGIN + (BOARDWIDTH * SPACESIZE)
@@ -485,9 +485,9 @@ def makeMove(board, tile, xstart, ystart, realMove=False):
 def isOnCorner(x, y):
     # Returns True if the position is in one of the four corners.
     return (x == 0 and y == 0) or \
-           (x == BOARDWIDTH and y == 0) or \
-           (x == 0 and y == BOARDHEIGHT) or \
-           (x == BOARDWIDTH and y == BOARDHEIGHT)
+           (x == BOARDWIDTH-1 and y == 0) or \
+           (x == 0 and y == BOARDHEIGHT-1) or \
+           (x == BOARDWIDTH-1 and y == BOARDHEIGHT-1)
 
 
 def getComputerMove(board, computerTile):
