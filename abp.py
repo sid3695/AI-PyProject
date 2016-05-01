@@ -23,7 +23,7 @@ def alphabetapruning(board, player, depth, prune_depth, tile, computerTile, alph
 	for x,y in main.getValidMoves(board,tile):
 		dupeBoard = copy.deepcopy(board)
 		main.makeMove(dupeBoard, tile, x, y)
-		score, bla = alphabetapruning(dupeBoard, 1-player, depth + 1, prune_depth, getOpponentTileColor(tile), computerTile,alpha,beta)
+		score, bla = alphabetapruning(dupeBoard, 1-player, depth + 1, prune_depth, getOpponentTileColor(tile), computerTile, alpha, beta)
 		if player == 1:
 			if ( score > bestScore ):
 				bestScore = score  # max

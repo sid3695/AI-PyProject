@@ -11,4 +11,5 @@ $ python main.py
 ### Todo 
 ~~- Implement Minimax~~ 
 ~~- Implement a fairly realistic evaluator function~~
-- Implement AplhaBeta?
+~~- Implement AplhaBeta Pruning~~
+-GUI Modification?

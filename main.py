@@ -519,7 +519,7 @@ def getComputerMoveMM(board, computerTile):
     return bestMove
 	
 def getComputerMoveABP(board, computerTile):
-    score, bestMove = abp.alphabetapruning(board, 1, 0, 3, computerTile, computerTile, -INFINITY, +INFINITY)
+    score, bestMove = abp.alphabetapruning(board, 1, 0, 4, computerTile, computerTile, -INFINITY, +INFINITY)
     return bestMove
 
 def checkForQuit():
