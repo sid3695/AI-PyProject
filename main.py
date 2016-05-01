@@ -48,10 +48,10 @@ def runGame():
     aiChoice = enterAIChoice()
     
     # Make the Surface and Rect objects for the "New Game" and "Hints" buttons
-    newGameSurf = FONT.render('New Game', True, TEXTCOLOR, None)
+    newGameSurf = FONT.render('New Game', True, TEXTCOLOR)
     newGameRect = newGameSurf.get_rect()
     newGameRect.topright = (WINDOWWIDTH - 8, 10)
-    hintsSurf = FONT.render('Hints', True, TEXTCOLOR, None)
+    hintsSurf = FONT.render('Hints', True, TEXTCOLOR)
     hintsRect = hintsSurf.get_rect()
     hintsRect.topright = (WINDOWWIDTH - 8, 40)
 
@@ -226,7 +226,7 @@ def animateTileChange(tilesToFlip, tileColor, additionalTile):
 
 def drawBoard(board):
     # Draw background of board.
-    DISPLAYSURF.convert_alpha()
+    #DISPLAYSURF.convert_alpha()
     DISPLAYSURF.blit(BGIMAGE, BGIMAGE.get_rect())
    
 
@@ -402,11 +402,11 @@ def enterPlayerTile():
     textRect = textSurf.get_rect()
     textRect.center = (int(WINDOWWIDTH / 2), int(WINDOWHEIGHT / 2))
 
-    xSurf = BIGFONT.render('White', True, WHITE, None)
+    xSurf = BIGFONT.render('White', True, WHITE)
     xRect = xSurf.get_rect()
     xRect.center = (int(WINDOWWIDTH / 2) - 60, int(WINDOWHEIGHT / 2) + 40)
 
-    oSurf = BIGFONT.render('Black', True, BLACK, None)
+    oSurf = BIGFONT.render('Black', True, BLACK)
     oRect = oSurf.get_rect()
     oRect.center = (int(WINDOWWIDTH / 2) + 60, int(WINDOWHEIGHT / 2) + 40)
 
