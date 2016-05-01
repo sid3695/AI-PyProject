@@ -12,16 +12,16 @@ def main():
     MAINCLOCK = pygame.time.Clock()
     DISPLAYSURF = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
     pygame.display.set_caption('Flippy')
-    FONT = pygame.font.Font('freesansbold.ttf', 16)
-    BIGFONT = pygame.font.Font('freesansbold.ttf', 32)
+    FONT = pygame.font.SysFont('freesans.ttf', 28)
+    BIGFONT = pygame.font.Font('freesansbold.ttf', 35)
 
     # Set up the background image.
-    boardImage = pygame.image.load('images/flippyboard.png')
+    boardImage = pygame.image.load('images/35.jpg')
     # Use smoothscale() to stretch the board image to fit the entire board:
     boardImage = pygame.transform.smoothscale(boardImage, (BOARDWIDTH * SPACESIZE, BOARDHEIGHT * SPACESIZE))
     boardImageRect = boardImage.get_rect()
     boardImageRect.topleft = (XMARGIN, YMARGIN)
-    BGIMAGE = pygame.image.load('images/flippybackground.png')
+    BGIMAGE = pygame.image.load('images/10.jpg')
     # Use smoothscale() to stretch the background image to fit the entire window:
     BGIMAGE = pygame.transform.smoothscale(BGIMAGE, (WINDOWWIDTH, WINDOWHEIGHT))
     BGIMAGE.blit(boardImage, boardImageRect)
@@ -48,10 +48,10 @@ def runGame():
     aiChoice = enterAIChoice()
     
     # Make the Surface and Rect objects for the "New Game" and "Hints" buttons
-    newGameSurf = FONT.render('New Game', True, TEXTCOLOR, TEXTBGCOLOR2)
+    newGameSurf = FONT.render('New Game', True, TEXTCOLOR, None)
     newGameRect = newGameSurf.get_rect()
     newGameRect.topright = (WINDOWWIDTH - 8, 10)
-    hintsSurf = FONT.render('Hints', True, TEXTCOLOR, TEXTBGCOLOR2)
+    hintsSurf = FONT.render('Hints', True, TEXTCOLOR, None)
     hintsRect = hintsSurf.get_rect()
     hintsRect.topright = (WINDOWWIDTH - 8, 40)
 
@@ -152,23 +152,23 @@ def runGame():
     else:
         text = 'The game was a tie!'
 
-    textSurf = FONT.render(text, True, TEXTCOLOR, TEXTBGCOLOR1)
+    textSurf = FONT.render(text, True, TEXTCOLOR, TEXTCOLOR2)
     textRect = textSurf.get_rect()
     textRect.center = (int(WINDOWWIDTH / 2), int(WINDOWHEIGHT / 2))
     DISPLAYSURF.blit(textSurf, textRect)
 
     # Display the "Play again?" text with Yes and No buttons.
-    text2Surf = BIGFONT.render('Play again?', True, TEXTCOLOR, TEXTBGCOLOR1)
+    text2Surf = BIGFONT.render('Play again?', True, TEXTCOLOR, TEXTCOLOR2)
     text2Rect = text2Surf.get_rect()
     text2Rect.center = (int(WINDOWWIDTH / 2), int(WINDOWHEIGHT / 2) + 50)
 
     # Make "Yes" button.
-    yesSurf = BIGFONT.render('Yes', True, TEXTCOLOR, TEXTBGCOLOR1)
+    yesSurf = BIGFONT.render('Yes', True, TEXTCOLOR, TEXTCOLOR2)
     yesRect = yesSurf.get_rect()
     yesRect.center = (int(WINDOWWIDTH / 2) - 60, int(WINDOWHEIGHT / 2) + 90)
 
     # Make "No" button.
-    noSurf = BIGFONT.render('No', True, TEXTCOLOR, TEXTBGCOLOR1)
+    noSurf = BIGFONT.render('No', True, TEXTCOLOR, TEXTCOLOR2)
     noRect = noSurf.get_rect()
     noRect.center = (int(WINDOWWIDTH / 2) + 60, int(WINDOWHEIGHT / 2) + 90)
 
@@ -226,7 +226,9 @@ def animateTileChange(tilesToFlip, tileColor, additionalTile):
 
 def drawBoard(board):
     # Draw background of board.
+    DISPLAYSURF.convert_alpha()
     DISPLAYSURF.blit(BGIMAGE, BGIMAGE.get_rect())
+   
 
     # Draw grid lines of the board.
     for x in range(BOARDWIDTH + 1):
@@ -235,14 +237,14 @@ def drawBoard(board):
         starty = YMARGIN
         endx = (x * SPACESIZE) + XMARGIN
         endy = YMARGIN + (BOARDHEIGHT * SPACESIZE)
-        pygame.draw.line(DISPLAYSURF, GRIDLINECOLOR, (startx, starty), (endx, endy))
+        pygame.draw.line(DISPLAYSURF, GRIDLINECOLOR, (startx, starty), (endx, endy),2)
     for y in range(BOARDHEIGHT + 1):
         # Draw the horizontal lines.
         startx = XMARGIN
         starty = (y * SPACESIZE) + YMARGIN
         endx = XMARGIN + (BOARDWIDTH * SPACESIZE)
         endy = (y * SPACESIZE) + YMARGIN
-        pygame.draw.line(DISPLAYSURF, GRIDLINECOLOR, (startx, starty), (endx, endy))
+        pygame.draw.line(DISPLAYSURF, GRIDLINECOLOR, (startx, starty), (endx, endy),2)
 
     # Draw the black & white tiles or hint spots.
     for x in range(BOARDWIDTH):
@@ -274,7 +276,7 @@ def getSpaceClicked(mousex, mousey):
 def drawInfo(board, playerTile, computerTile, turn):
     # Draws scores and whose turn it is at the bottom of the screen.
     scores = getScoreOfBoard(board)
-    scoreSurf = FONT.render("Player Score: %s    Computer Score: %s    %s's Turn" % (str(scores[playerTile]), str(scores[computerTile]), turn.title()), True, TEXTCOLOR)
+    scoreSurf = FONT.render("Player Score: %s    Computer Score: %s    %s's Turn" % (str(scores[playerTile]), str(scores[computerTile]), turn.title()), True, TEXTCOLOR, HINTCOLOR)
     scoreRect = scoreSurf.get_rect()
     scoreRect.bottomleft = (10, WINDOWHEIGHT - 5)
     DISPLAYSURF.blit(scoreSurf, scoreRect)
@@ -396,15 +398,15 @@ def enterPlayerTile():
     # [BLACK_TILE, WHITE_TILE] if Black.
 
     # Create the text.
-    textSurf = FONT.render('Do you want to be white or black?', True, TEXTCOLOR, TEXTBGCOLOR1)
+    textSurf = FONT.render('Do you want to be white or black?', True, TEXTCOLOR, HINTCOLOR)
     textRect = textSurf.get_rect()
     textRect.center = (int(WINDOWWIDTH / 2), int(WINDOWHEIGHT / 2))
 
-    xSurf = BIGFONT.render('White', True, TEXTCOLOR, TEXTBGCOLOR1)
+    xSurf = BIGFONT.render('White', True, WHITE, None)
     xRect = xSurf.get_rect()
     xRect.center = (int(WINDOWWIDTH / 2) - 60, int(WINDOWHEIGHT / 2) + 40)
 
-    oSurf = BIGFONT.render('Black', True, TEXTCOLOR, TEXTBGCOLOR1)
+    oSurf = BIGFONT.render('Black', True, BLACK, None)
     oRect = oSurf.get_rect()
     oRect.center = (int(WINDOWWIDTH / 2) + 60, int(WINDOWHEIGHT / 2) + 40)
 
@@ -427,19 +429,19 @@ def enterPlayerTile():
         MAINCLOCK.tick(FPS)
 
 def enterAIChoice():
-    textSurf = FONT.render('Choose the algorithm the computer uses :', True, TEXTCOLOR, TEXTBGCOLOR1)
+    textSurf = FONT.render('Choose the algorithm the computer uses :', True, TEXTCOLOR, HINTCOLOR)
     textRect = textSurf.get_rect()
     textRect.center = (int(WINDOWWIDTH / 2), int(WINDOWHEIGHT / 2))
 
-    xSurf = BIGFONT.render('Greedy', True, TEXTCOLOR, TEXTBGCOLOR1)
+    xSurf = BIGFONT.render('Greedy', True, TEXTCOLOR, HINTCOLOR)
     xRect = xSurf.get_rect()
     xRect.center = (int(WINDOWWIDTH / 2), int(WINDOWHEIGHT / 2) + 40)
 
-    oSurf = BIGFONT.render('MiniMax', True, TEXTCOLOR, TEXTBGCOLOR1)
+    oSurf = BIGFONT.render('MiniMax', True, TEXTCOLOR, HINTCOLOR)
     oRect = oSurf.get_rect()
     oRect.center = (int(WINDOWWIDTH / 2), int(WINDOWHEIGHT / 2) + 80)
 	
-    ySurf = BIGFONT.render('Alpha Beta Pruning', True, TEXTCOLOR, TEXTBGCOLOR1)
+    ySurf = BIGFONT.render('Alpha Beta Pruning', True, TEXTCOLOR, HINTCOLOR)
     yRect = ySurf.get_rect()
     yRect.center = (int(WINDOWWIDTH / 2), int(WINDOWHEIGHT / 2) + 120)
 

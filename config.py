@@ -1,6 +1,8 @@
+import pygame
+
 FPS = 10 # frames per second to update the screen
-WINDOWWIDTH = 640 # width of the program's window, in pixels
-WINDOWHEIGHT = 480 # height in pixels
+WINDOWWIDTH = 700 # width of the program's window, in pixels
+WINDOWHEIGHT = 600 # height in pixels
 SPACESIZE = 50 # width & height of each space on the board, in pixels
 BOARDWIDTH = 8 # how many columns of spaces on the game board
 BOARDHEIGHT = 8 # how many rows of spaces on the game board
@@ -21,11 +23,17 @@ WHITE      = (255, 255, 255)
 BLACK      = (  0,   0,   0)
 GREEN      = (  0, 155,   0)
 BRIGHTBLUE = (  0,  50, 255)
-BROWN      = (174,  94,   0)
+BROWN      = (153,  0,   0)
+DARKBLUE   = (95, 158, 160)
+BBROWN    = (120,80,39)
+BBBROWN    = (101,67,33)
+BBBBROWN =(51,0,0)
 
+TRANSPARENT=pygame.Color(255,255,255,0)
 TEXTBGCOLOR1 = BRIGHTBLUE
 TEXTBGCOLOR2 = GREEN
-GRIDLINECOLOR = BLACK
+GRIDLINECOLOR = BBBROWN
 TEXTCOLOR = WHITE
-HINTCOLOR = BROWN
-
+TEXTCOLOR1 = BROWN
+HINTCOLOR = BBROWN
+TEXTCOLOR2 = BBBROWN
