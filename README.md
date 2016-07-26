@@ -13,3 +13,5 @@ $ python main.py
 ~~- Implement a fairly realistic evaluator function~~
 ~~- Implement AplhaBeta Pruning~~
 -GUI Modification?
+
+We never named the game. AI-thello, then :p
